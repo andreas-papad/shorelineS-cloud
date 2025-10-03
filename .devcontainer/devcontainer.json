@@ -1,11 +1,18 @@
 {
     "name": "ShorelineS",
-    "image": "containers.mathworks.com/matlab-runtime:r2025b",
+    "build": {
+        "context": "..",
+        "dockerfile": ".devcontainer/Dockerfile"
+    },
     "customizations": {
         "vscode": {
             "settings": {
                 "terminal.integrated.shell.linux": "/bin/bash"
             },
+            "extensions": [
+                "ms-python.python",
+                "ms-toolsai.jupyter"
+            ]
         }
     }
 }
