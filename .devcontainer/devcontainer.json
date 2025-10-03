@@ -2,7 +2,7 @@
     "name": "ShorelineS",
     "build": {
         "context": "..",
-        "dockerfile": ".devcontainer/Dockerfile"
+        "dockerfile": "Dockerfile"
     },
     "customizations": {
         "vscode": {

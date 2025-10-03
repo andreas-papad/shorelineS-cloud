@@ -22,5 +22,3 @@ RUN micromamba create -y -n bluemath -c conda-forge python=3.11 pip bluemath-tk 
 SHELL ["bash", "-lc"]
 RUN echo 'eval "$(micromamba shell hook -s bash)" && micromamba activate bluemath' >> /etc/bash.bashrc
 
-# Workspace
-WORKDIR /workspaces/project
