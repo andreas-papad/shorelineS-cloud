@@ -254,7 +254,7 @@ function [S,O]=ShorelineS(S0)
         [COAST]=merge_coastlines_mc(COAST);
 
         %% make transport points xq_mc and yq_mc
-        [COAST]=get_transportpoints(COAST,1:COAST.n_mc);
+        %[COAST]=get_transportpoints(COAST,1:COAST.n_mc);
         
         %% clean up redundant NaNs
         [COAST]=cleanup_nans(COAST);

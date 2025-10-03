@@ -406,7 +406,7 @@ function [V,FORMAT,TIME]=plot_coast(CHANNEL,STRUC,COAST,DUNE,WAVE,TIME,TRANSP,FO
                     else
                         ldbplotval = FORMAT.ldbplot{mm,1};
                     end
-                    hp6(mm)=plot(ldbplotval(:,1)-FORMAT.xyoffset(1),ldbplotval(:,2)-FORMAT.xyoffset(2),FORMAT.ldbplot{mm,3},'linewidth',0.5);
+                    hp6(mm)=plot(ldbplotval(:,1)-FORMAT.xyoffset(1),ldbplotval(:,2)-FORMAT.xyoffset(2),'linewidth',0.5);
                 end
                 hleg = legend(hp6,FORMAT.ldbplot(:,2)','Location',FORMAT.llocation);
                 set(hleg,'Box','off','Color','None');

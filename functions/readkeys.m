@@ -36,9 +36,9 @@ function [data] = readkeys(filename)
 %   --------------------------------------------------------------------
 
    number=0;
-   fid=fopen(filename);
+   fid=fopen(filename)
    while 1
-      s=fgetl(fid);
+      s=fgetl(fid)
       if ~isempty(s)
          if ~ischar(s), break, end
          s = strip(s);
@@ -56,7 +56,7 @@ function [data] = readkeys(filename)
                val=strip(s(k+1:end));
                % m=find(val==' '|val==';'|val=='%'|val=='/',1);
                %$m=find(val==';'|val=='%'|val=='/',1);
-               m=find(val=='%'|val=='/',1);
+               m=find(val=='%');
                if isempty(m)
                   values{number}=val;
                else

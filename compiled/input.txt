@@ -1,0 +1,62 @@
+LDBcoastline='../script/Data/LDB_161/1984-01-09-1984-07-07_IM_L4_UTM_SLini_South.txt'          
+                                % LDB with initial coastline shape ([Nx2] ASCII FILE WITHOUT HEADER)
+                                % <- leave empty to use interactive mode!
+start=0
+struct=1                     % switch for using hard structures
+channel=1
+LDBchannel='../script/Data/Senegal.txt'
+channel_width=[300]
+channel_fac=0.2
+x_hard=[337200 337200 350000]
+y_hard=[1754600 1755100 1755100]
+% if ~start>0
+%    load rivermat
+% end
+% xr_mc=xr_mc
+% yr_mc=yr_mc
+                                % LDB with hard structures ([Nx2] ASCII FILE WITHOUT HEADER) 
+                                % <- leave empty to use interactive mode!
+wavetransm = [0,0]           % transmission coeficient of the structures
+                                % array size equal to number of structure
+                                % sections
+LDBplot = {'../script/Data/LDB_161/1984-01-09-1984-07-07_IM_L4_UTM.txt','1984','k:'...
+             '../script/Data/LDB_161/1984-10-23-1985-04-21_IM_L4_UTM.txt','1985','b:'...
+             '../script/Data/LDB_161/1988-08-31-1989-02-27_IM_L4_UTM.txt','1988','g:'...
+             '../script/Data/LDB_161/2003-02-06-2003-08-05_IM_L4_UTM.txt','2003','r:'...
+             }                 % Filenames, dates and line codes of o=bserved coastlines
+xlimits=[ 330000  345000]    % x-limits of plot area
+ylimits=[1745000 1755000]    % y-limits of plot area
+reftime='1984-04-09'         % Reference time <- leave empty to use t=0
+endofsimulation='2003-04-01' % End time of simulation
+outputdir='StLouisCal310'       % output directory for plots and animation
+Waveclimfile=''              
+                                % Wave climate file <-leave empty to use wave parameters 
+                                % ('Hso', 'phiw0' and 'spread')
+Hso_in=1.4                     % deep water wave height(m)
+Hso=1.4                        % deep water wave height(m)
+phiw0=310                    % deep water wave angle [ N]
+spread=60                    % wave spreading [ ] (wave_dir from range:  phiw0 +/- 0.5*spread)
+WVCfile=''                   % wave time-series <-leave empty to use wave parameters ('Hso', 'phiw0' and 'spread')
+d=5                         % Active profile height [m]
+ddeep=30                     % Offshore water depth for refraction
+dnearshore=6                 % Nearshore water depth for refraction
+phif=[]                      % Orientation of the foreshore [ N] <- only relevant for 'KAMP', 'MILH' or 'VR14'
+trform='CERC'               % Switch for transport formulation (e.g. trform='CERC', 'KAMP', 'MILH' or 'VR14')
+b=.5e6                        % CERC : coeff in simple cerc formula
+tc=.9                       % factor to modify automatic timestep
+ds0=100                      % initial space step [m]
+nt=5000                      % number of timesteps
+growth=0                     % calibration of nourishment growth rate
+nourish=0                    % switch (0/1) for nourishments
+LDBnourish=''                % LDB with nourishment locations ([Nx2] ASCII FILE WITHOUT HEADER) (i.e. polygon around relevant grid cells) <- leave empty to use interactive mode!
+nourrate=100                 % nourishment rate in polygon (m3/m/y)
+nourstart=0                  % start time of nourishment (y)
+spit_width=50                 % width of tip of spit
+twopoints=1                  % upwind treatment involving two points (1) or 1 point (0)
+plotinterval=10
+storageinterval=1
+fignryear=12
+smoothfac=0.01
+usefill=0
+
+
