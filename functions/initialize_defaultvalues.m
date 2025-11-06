@@ -279,6 +279,7 @@ function [S]=initialize_defaultvalues(S0)
     S.ldbplot = {};                                                            % cell array with at every line a string with LDB-filename, string with legend entry, string with plot format (e.g. 'b--') <- e.g. {'abc.ldb','line 1','k--'; 'def.ldb','line 2','r-.'; etc} <- leave empty to not use additional plots
     S.ploths = 0;                                                              % plot wave height at depth-of-closure (TDP) as coloured markers and text along the coast (use 0/1 as switch). A larger value than 1 plots at every 'nth' grid cell (so 5 at every five cells).
     S.plotdir = 0;                                                             % plot wave direction at depth-of-closure (TDP) as quivers and text along the coast (use 0/1 as switch). A larger value than 1 plots at every 'nth' grid cell (so 5 at every five cells).
+    S.plotwavequiver = 0;
     S.plotqs = 0;                                                              % plot transport rates at depth-of-closure (TDP) as coloured markers and text along the coast (use 0/1 as switch). A larger value than 1 plots at every 'nth' grid cell (so 5 at every five cells).
     S.plotupw = 0;                                                             % plot locations with high angle correction (use 0/1 as switch)
     S.llocation='SouthWest';                                                   % location of legend. Shortened for Octave compatibility

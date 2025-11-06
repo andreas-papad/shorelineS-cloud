@@ -175,8 +175,8 @@ function [V,FORMAT,TIME]=plot_coast(CHANNEL,STRUC,COAST,DUNE,WAVE,TIME,TRANSP,FO
             end 
             
             %% PLOT COASTLINES
-            plot(COAST.x_mc0,COAST.y_mc0,'k-','linewidth',1,'Color',[0.5 0.5 0.5]);hold on;
-            plot(COAST.x_mc,COAST.y_mc,'b-','linewidth',1,'Color',[0.2 0.2 0.8]); 
+            plot(COAST.x_mc0,COAST.y_mc0,'k-','linewidth',2,'Color',[0.5 0.5 0.5]);hold on;
+            plot(COAST.x_mc,COAST.y_mc,'b-','linewidth',3,'Color',[0.2 0.2 0.8]); 
             n=length(FORMAT.figplotfreqt);
             clr=flipud(jet(n));
             hpi=[];
@@ -185,7 +185,7 @@ function [V,FORMAT,TIME]=plot_coast(CHANNEL,STRUC,COAST,DUNE,WAVE,TIME,TRANSP,FO
             end
             if ~isempty(hpi)
                 hleg0=legend(hpi,datestr(FORMAT.figplotfreqt,'dd-mmm-yyyy'));
-                set(hleg0,'FontSize',8);
+                set(hleg0,'FontSize',15);
                 try 
                 set(hleg0,'AutoUpdate','off');
                 end
@@ -239,9 +239,14 @@ function [V,FORMAT,TIME]=plot_coast(CHANNEL,STRUC,COAST,DUNE,WAVE,TIME,TRANSP,FO
             HSbr2=[];
             xx=[];
             yy=[];  
+            if FORMAT.plotwavequiver==0
+                num=1E20;
+            else
+                num=0;
+            end
             if isempty(WAVE.WVC) || WAVE.spacevaryingwave==0
-                arx=[FORMAT.xywave(1)-FORMAT.xyoffset(1)];
-                ary=[FORMAT.xywave(2)-FORMAT.xyoffset(2)];
+                arx=[FORMAT.xywave(1)+num-FORMAT.xyoffset(1)];
+                ary=[FORMAT.xywave(2)+num-FORMAT.xyoffset(2)];
                 PHI2=PHI_mean;
                 PHItdp2=PHItdp_mean;
                 PHIbr2=PHIbr_mean;
@@ -251,8 +256,8 @@ function [V,FORMAT,TIME]=plot_coast(CHANNEL,STRUC,COAST,DUNE,WAVE,TIME,TRANSP,FO
                 if ~isempty(COAST.PHIf_mc) 
                     PHIf2=median(COAST.PHIf_mc(~isnan(COAST.PHIf_mc)));
                 end
-                xx=min(max(FORMAT.xywave(1)-FORMAT.xyoffset(1)-diff(FORMAT.xlimits)/24,min(FORMAT.xlimits)),max(FORMAT.xlimits));
-                yy=min(max(FORMAT.xywave(2)-FORMAT.xyoffset(2)+diff(FORMAT.ylimits)/24,min(FORMAT.ylimits)),max(FORMAT.ylimits));
+                xx=min(max(FORMAT.xywave(1)+num-FORMAT.xyoffset(1)-diff(FORMAT.xlimits)/24,min(FORMAT.xlimits)),max(FORMAT.xlimits));
+                yy=min(max(FORMAT.xywave(2)+num-FORMAT.xyoffset(2)+diff(FORMAT.ylimits)/24,min(FORMAT.ylimits)),max(FORMAT.ylimits));
             else %if ~isempty(COAST.x_mc)
                 WVCid=zeros(length(WAVE.WVC),1);
                 arx=zeros(length(WAVE.WVC),1);
@@ -270,8 +275,8 @@ function [V,FORMAT,TIME]=plot_coast(CHANNEL,STRUC,COAST,DUNE,WAVE,TIME,TRANSP,FO
                     try
                         dist=((COAST.xq1_mc-WAVE.WVC(gg).x).^2+(COAST.yq1_mc-WAVE.WVC(gg).y).^2).^0.5;
                         WVCid(gg)=min(find(dist==min(dist),1),length(WAVE.PHIo_mc));
-                        arx(gg)=[WAVE.WVC(gg).x-FORMAT.xyoffset(1)];
-                        ary(gg)=[WAVE.WVC(gg).y-FORMAT.xyoffset(2)];
+                        arx(gg)=[WAVE.WVC(gg).x+num-FORMAT.xyoffset(1)];
+                        ary(gg)=[WAVE.WVC(gg).y+num-FORMAT.xyoffset(2)];
                         PHI2(gg)=WAVE.PHIo_mc(WVCid(gg));
                         PHItdp2(gg)=WAVE.PHItdp_mc(WVCid(gg));
                         PHIbr2(gg)=WAVE.PHIbr_mc(WVCid(gg));
@@ -298,7 +303,7 @@ function [V,FORMAT,TIME]=plot_coast(CHANNEL,STRUC,COAST,DUNE,WAVE,TIME,TRANSP,FO
                     hqvr3=quiver(arx(gg),ary(gg),FORMAT.xywave(3).*cosd(3/2*180-PHIbr2(gg))*HSbr2(gg)/HS2(gg)*factor,FORMAT.xywave(3).*sind(3/2*180-PHIbr2(gg))*HSbr2(gg)/HS2(gg)*factor,qvrscale);hold on;
                     set(hqvr3,'linewidth',2,'Color',cols(3,:),'AutoScale','off','AutoScaleFactor',1.2,'MaxHeadSize',1);
                     htxt=text(xx(gg)+FORMAT.xywave(3).*cosd(PHIf2(gg))/3,yy(gg)+FORMAT.xywave(3).*sind(PHIf2(gg))/3,[' ',num2str(HSbr2(gg),'%2.1f'),'m']);
-                    set(htxt,'FontSize',9,'HorizontalAlignment','Center','VerticalAlignment','Middle','Color',cols(1,:));
+                    set(htxt,'FontSize',15,'HorizontalAlignment','Center','VerticalAlignment','Middle','Color',cols(1,:));
                     if mod(gg,5)==0
                         plot(arx(gg),ary(gg),'ko');
                     end
@@ -306,7 +311,7 @@ function [V,FORMAT,TIME]=plot_coast(CHANNEL,STRUC,COAST,DUNE,WAVE,TIME,TRANSP,FO
             end
 
             %% PLOT LOWER SHOREFACE ORIENTATION
-            if ~isempty(PHIf2) && ~strcmpi(TRANSP.trform,'KAMP') && ~strcmpi(TRANSP.trform,'CERC') && ~strcmpi(TRANSP.trform,'CERC2')
+            if ~isempty(PHIf2) && ~strcmpi(TRANSP.trform,'KAMP') && ~strcmpi(TRANSP.trform,'CERC') && ~strcmpi(TRANSP.trform,'CERC2') && ~FORMAT.plotwavequiver==0
                 if arx(gg)>FORMAT.xlimits(1) && arx(gg)<FORMAT.xlimits(2) && ary(gg)>FORMAT.ylimits(1) && ary(gg)<FORMAT.ylimits(2) 
                     for gg=1:length(arx) 
                         dx=FORMAT.xywave(3).*cosd(PHIf2(gg))/4.*[1,-1];
@@ -329,9 +334,9 @@ function [V,FORMAT,TIME]=plot_coast(CHANNEL,STRUC,COAST,DUNE,WAVE,TIME,TRANSP,FO
                     idxy=COAST.xq1_mc(gg)>FORMAT.xlimits(1) && COAST.xq1_mc(gg)<FORMAT.xlimits(2) && COAST.yq1_mc(gg)>FORMAT.ylimits(1) && COAST.yq1_mc(gg)<FORMAT.ylimits(2);
                     if idxy && ~isnan(COAST.xq1_mc(gg)) && shadowS_h_mc(gg)<1 && shadowS_mc(gg)<1
                         htxt=text(COAST.xq1_mc(gg),COAST.yq1_mc(gg)-FORMAT.xyoffset(2),['',num2str(WAVE.HStdp_mc(gg),'%2.1f'),'m']);
-                        set(htxt,'FontSize',9,'HorizontalAlignment','Center','VerticalAlignment','Bottom','Color',cols(2,:));
+                        set(htxt,'FontSize',15,'HorizontalAlignment','Center','VerticalAlignment','Bottom','Color',cols(2,:));
                         htxt=text(COAST.xq1_mc(gg),COAST.yq1_mc(gg)-FORMAT.xyoffset(2),['',num2str(WAVE.HSbr_mc(gg),'%2.1f'),'m']);
-                        set(htxt,'FontSize',9,'HorizontalAlignment','Center','VerticalAlignment','Top','Color',cols(3,:));
+                        set(htxt,'FontSize',15,'HorizontalAlignment','Center','VerticalAlignment','Top','Color',cols(3,:));
                     end
                 end
             end
@@ -359,7 +364,7 @@ function [V,FORMAT,TIME]=plot_coast(CHANNEL,STRUC,COAST,DUNE,WAVE,TIME,TRANSP,FO
                             hqvr9=quiver(COAST.xq1_mc(gg)-FORMAT.xyoffset(1),COAST.yq1_mc(gg)-FORMAT.xyoffset(2),QVR1,QVR2,qsfac*shadowfac*qvrscale);hold on;
                             set(hqvr9,'linewidth',2,'Color',cols(mm+1,:),'AutoScale','off','AutoScaleFactor',1.2,'MaxHeadSize',1);               
                             htxt=text(COAST.xq1_mc(gg)-FORMAT.xyoffset(1),COAST.yq1_mc(gg)-FORMAT.xyoffset(2),['',num2str(PHIwave,'%1.0f'),'°']);
-                            set(htxt,'FontSize',9,'HorizontalAlignment','Center','VerticalAlignment',vertalignm{mm},'Color',cols(mm+1,:));
+                            set(htxt,'FontSize',15,'HorizontalAlignment','Center','VerticalAlignment',vertalignm{mm},'Color',cols(mm+1,:));
                         end
                     end
                 end
@@ -377,7 +382,7 @@ function [V,FORMAT,TIME]=plot_coast(CHANNEL,STRUC,COAST,DUNE,WAVE,TIME,TRANSP,FO
                     idxy=COAST.xq1_mc(gg)>FORMAT.xlimits(1) && COAST.xq1_mc(gg)<FORMAT.xlimits(2) && COAST.yq1_mc(gg)>FORMAT.ylimits(1) && COAST.yq1_mc(gg)<FORMAT.ylimits(2);
                     if idxy && ~isnan(COAST.xq1_mc(gg)) && abs(TRANSP.QS_mc(gg))>1000
                         htxt=text(COAST.xq1_mc(gg)-FORMAT.xyoffset(1),COAST.yq1_mc(gg)-FORMAT.xyoffset(2),['',num2str(TRANSP.QS_mc(gg)/1000,'%1.0f'),char(183),'10^3 m^3/yr']);
-                        set(htxt,'FontSize',9,'HorizontalAlignment','Center','VerticalAlignment','Middle','Color',cols(1,:),'FontWeight','Bold');
+                        set(htxt,'FontSize',15,'HorizontalAlignment','Center','VerticalAlignment','Middle','Color',cols(1,:),'FontWeight','Bold');
                     end
                 end
             end
@@ -406,7 +411,7 @@ function [V,FORMAT,TIME]=plot_coast(CHANNEL,STRUC,COAST,DUNE,WAVE,TIME,TRANSP,FO
                     else
                         ldbplotval = FORMAT.ldbplot{mm,1};
                     end
-                    hp6(mm)=plot(ldbplotval(:,1)-FORMAT.xyoffset(1),ldbplotval(:,2)-FORMAT.xyoffset(2),'linewidth',0.5);
+                    hp6(mm)=plot(ldbplotval(:,1)-FORMAT.xyoffset(1),ldbplotval(:,2)-FORMAT.xyoffset(2),FORMAT.ldbplot{mm,3},'linewidth',0.5);
                 end
                 hleg = legend(hp6,FORMAT.ldbplot(:,2)','Location',FORMAT.llocation);
                 set(hleg,'Box','off','Color','None');
@@ -423,7 +428,7 @@ function [V,FORMAT,TIME]=plot_coast(CHANNEL,STRUC,COAST,DUNE,WAVE,TIME,TRANSP,FO
                     yduneprofile = [COAST.y_mc(idp), COAST.y_mc(idp) - COAST.wberm_mc(idp).*cosd(COAST.PHIcxy_mc(idp))]; 
                     plot(xduneprofile,yduneprofile,'g--');
                     htxt=text(FORMAT.xyprofiles(pp,1),FORMAT.xyprofiles(pp,2),['profile',num2str(pp)]);
-                    set(htxt,'FontSize',9,'HorizontalAlignment','Right','VerticalAlignment','Top');
+                    set(htxt,'FontSize',15,'HorizontalAlignment','Right','VerticalAlignment','Top');
                 end
             end
             
@@ -465,19 +470,19 @@ function [V,FORMAT,TIME]=plot_coast(CHANNEL,STRUC,COAST,DUNE,WAVE,TIME,TRANSP,FO
         xlim(FORMAT.xlimits);
         ylim(FORMAT.ylimits);
         if max(xlim)>=600
-        set(ax,'XtickLabel',num2str(get(ax,'Xtick')'/1000,'%2.1f'));
+        set(ax,'XtickLabel',num2str(get(ax,'Xtick')'/1000,'%2.1f'),'FontSize',18);
         else
-        set(ax,'XtickLabel',num2str(get(ax,'Xtick')'/1000,'%2.2f'));
+        set(ax,'XtickLabel',num2str(get(ax,'Xtick')'/1000,'%2.2f'),'FontSize',18);
         end    
         if max(ylim)>=600
-        set(ax,'YtickLabel',num2str(get(ax,'Ytick')'/1000,'%2.1f'));
+        set(ax,'YtickLabel',num2str(get(ax,'Ytick')'/1000,'%2.1f'),'FontSize',18);
         else
-        set(ax,'YtickLabel',num2str(get(ax,'Ytick')'/1000,'%2.2f'));
+        set(ax,'YtickLabel',num2str(get(ax,'Ytick')'/1000,'%2.2f'),'FontSize',18);
         end
-        xlabel(ax,'Easting [km]','HandleVisibility','off');
-        ylabel(ax,'Northing [km]','HandleVisibility','off');
+        xlabel(ax,'Easting [km]','HandleVisibility','off','FontSize',18);
+        ylabel(ax,'Northing [km]','HandleVisibility','off','FontSize',18);
         date=datevec(double(TIME.tnow));
-        title(ax,num2str(date(1:3)));
+        title(ax,num2str(date(1:3)),'FontSize',18);
         if ~FORMAT.fastplot
            drawnow;    % 10% of plottime
         end
@@ -488,7 +493,25 @@ function [V,FORMAT,TIME]=plot_coast(CHANNEL,STRUC,COAST,DUNE,WAVE,TIME,TRANSP,FO
         end
         
         %% images
+        filename=fullfile(FORMAT.outputdir,'coastline_results.csv');
         if TIME.tnow>=TIME.tnext
+            fileID = fopen(filename, 'a');
+            date_time = datestr(TIME.tnow, 'yyyy-mm-dd');
+            fprintf(fileID, '%s\n', date_time);
+            fprintf(fileID, '%f,', COAST.x_mc);
+            fprintf(fileID, '\n');
+            fprintf(fileID, '%f,', COAST.y_mc);
+            fprintf(fileID, '\n');
+            fclose(fileID);
+            if ~isempty(STRUC.xhard) && ~isempty(STRUC.yhard)
+                structfile=fullfile(FORMAT.outputdir,'xyhard.txt');
+                fileID = fopen(structfile, 'w');
+                fprintf(fileID, '%f ', STRUC.xhard);
+                fprintf(fileID, '\n');
+                fprintf(fileID, '%f ', STRUC.yhard);
+                fprintf(fileID, '\n');
+                fclose(fileID);
+            end
             fname=[num2str(round((TIME.it+1)),'%05.0f')]; 
             if ~FORMAT.fastplot    
                print(FORMAT.mainfighandle,fullfile(FORMAT.outputdir,[fname '.png']),'-dpng','-r150');

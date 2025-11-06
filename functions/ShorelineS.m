@@ -73,12 +73,20 @@ function [S,O]=ShorelineS(S0)
     [BATHY]   = initialize_bathyupdate(S);
     [FORMAT]  = initialize_plot(S,COAST);    
     [O,P,V]   = initialize_output(S,TIME,COAST,DUNE,MUD);
-    
+    ian=0;
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %% Loop over time
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     fprintf('  Loop over time \n'); 
     while TIME.tnow<TIME.tend || (TIME.tnow==TIME.tend && TIME.tc==0)
+        total_duration=TIME.tend-TIME.timenum0;
+        elapsed_time=TIME.tnow-TIME.timenum0;
+        prc=elapsed_time/total_duration*100;
+        ian=ian+1;
+
+        fid=fopen(fullfile('/',FORMAT.outputdir,'Hidden_Progress.csv'),'w');
+        fprintf(fid, '%d,%d\n', round(prc), ian);
+        fclose(fid);
         TIME.it=TIME.it+1; 
         TIME.nt=TIME.it; 
         

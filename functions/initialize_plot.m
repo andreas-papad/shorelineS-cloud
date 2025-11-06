@@ -52,7 +52,8 @@ function [FORMAT] = initialize_plot(S,COAST)
     S.ylimits=sort(S.ylimits); 
     FORMAT.xlimits=S.xlimits; 
     FORMAT.ylimits=S.ylimits; 
-    FORMAT.xyoffset=S.xyoffset; 
+    FORMAT.xyoffset=S.xyoffset;
+    FORMAT.plotwavequiver=S.plotwavequiver; 
 
     % Format figures
     if S.plotvisible==0
