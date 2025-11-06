@@ -1,4 +1,8 @@
-# shorelines
-ShorelineS free-form coastline simulation program
+## shorelineS-cloud
 
-Matlab code separated in functions that should be generic and should not change from case to case, and scripts, which contain the case-specific info.
+This repository is a fork of the original ShorelineS project:
+https://github.com/danoroelvink/shorelines
+
+It contains modifications to support integration with a web-based software environment.
+
+This fork and all modifications are licensed under the GNU Lesser General Public License v3 (LGPL v3).
